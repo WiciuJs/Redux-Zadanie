@@ -19,7 +19,7 @@ export const eventsListSlice = createSlice({
       state.formDataList = state.formDataList.concat(action.payload);
     },
     deleteEvent: (state, action: PayloadAction<number>) => {
-      state.formDataList = state.formDataList.filter((_, index) => index !== action.payload);
+      state.formDataList.splice(action.payload, 1);
     },
   },
 });

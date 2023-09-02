@@ -1,67 +1,33 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { FormData } from './redux/types';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFormData, resetForm } from './redux/eventsFormSlice';
 import { addEvent } from './redux/eventsListSlice';
-
-
+import { RootState } from './redux/store';
 
 const Form: React.FC = () => {
   const dispatch = useDispatch();
-  const [form, setForm] = useState<FormData>({
-    name: '',
-    eventName: '',
-    city: '',
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({
-    name: '',
-    eventName: '',
-    city: '',
-  });
+  const formData = useSelector((state: RootState) => state.eventsForm);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
-    setForm((prevForm) => ({
-      ...prevForm,
+    dispatch(setFormData({
+      ...formData, 
       [name]: value,
-    }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: '',
     }));
   };
 
   const handleSubmitClick = () => {
     const newForm = {
-      name: form.name,
-      eventName: form.eventName,
-      city: form.city,
+      name: formData.name,
+      eventName: formData.eventName,
+      city: formData.city,
     };
 
-    const formErrors: Record<string, string> = {};
-
-    if (!newForm.name) {
-      formErrors.name = 'Wypełnij Imię i Nazwisko';
-    }
-
-    if (!newForm.eventName) {
-      formErrors.eventName = 'Wybierz Wydarzenie';
-    }
-
-    if (!newForm.city) {
-      formErrors.city = 'Wybierz Miasto';
-    }
-
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
+    if (!newForm.name || !newForm.eventName || !newForm.city) {
+      alert('Wypełnij wszystkie pola formularza.');
     } else {
       dispatch(addEvent(newForm));
-      setForm({
-        name: '',
-        eventName: '',
-        city: '',
-      });
+      dispatch(resetForm());
     }
   };
 
@@ -73,10 +39,9 @@ const Form: React.FC = () => {
           <input
             type="text"
             name="name"
-            value={form.name}
+            value={formData.name}
             onChange={handleInputChange}
           />
-          {errors.name && <span className="error">{errors.name}</span>}
         </label>
       </div>
       <div>
@@ -84,14 +49,13 @@ const Form: React.FC = () => {
           Wydarzenie:
           <select
             name="eventName"
-            value={form.eventName}
+            value={formData.eventName}
             onChange={handleInputChange}
           >
             <option value="">Wybierz Wydarzenie</option>
             <option value="Kurs Full Stack Developer">Kurs Full Stack Developer</option>
             <option value="Kurs Front End Developer">Kurs Front End Developer</option>
           </select>
-          {errors.eventName && <span className="error">{errors.eventName}</span>}
         </label>
       </div>
       <div>
@@ -99,7 +63,7 @@ const Form: React.FC = () => {
           Miasto:
           <select
             name="city"
-            value={form.city}
+            value={formData.city}
             onChange={handleInputChange}
           >
             <option value="">Wybierz Miasto</option>
@@ -107,7 +71,6 @@ const Form: React.FC = () => {
             <option value="Warszawa">Warszawa</option>
             <option value="Kraków">Kraków</option>
           </select>
-          {errors.city && <span className="error">{errors.city}</span>}
         </label>
       </div>
       <div>
@@ -118,4 +81,5 @@ const Form: React.FC = () => {
     </form>
   );
 };
+
 export default Form;
