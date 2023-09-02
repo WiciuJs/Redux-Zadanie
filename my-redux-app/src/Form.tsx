@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addFormData } from './redux/actions';
+
 import { FormData } from './redux/types';
+import { addEvent } from './redux/eventsListSlice';
 
-interface FormProps {
-  handleSubmit: (newForm: FormData) => void;
-}
 
-const Form: React.FC<FormProps> = ({}) => {
+
+const Form: React.FC = () => {
   const dispatch = useDispatch();
   const [form, setForm] = useState<FormData>({
     name: '',
@@ -57,7 +56,7 @@ const Form: React.FC<FormProps> = ({}) => {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-      dispatch(addFormData(newForm));
+      dispatch(addEvent(newForm));
       setForm({
         name: '',
         eventName: '',

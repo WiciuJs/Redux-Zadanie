@@ -1,8 +1,11 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import eventsListReducer from "./eventsListSlice";
 
-const store = createStore(reducer);
+export const store = configureStore({
+  reducer: {
+    eventsList: eventsListReducer
+  },
+});
 
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-
-export default store;

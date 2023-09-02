@@ -1,2 +1,0 @@
-export const ADD_FORM_DATA = 'ADD_FORM_DATA';
-export const DELETE_FORM_DATA = 'DELETE_FORM_DATA';

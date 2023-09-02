@@ -1,19 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFormData } from './redux/actions';
-import { RootState } from './redux/store';
-import { FormData } from './redux/types';
 
-interface TableProps {
-  handleDelete: (index: number) => void;
-}
+import { selectEvents, deleteEvent } from './redux/eventsListSlice';
 
-const Table: React.FC<TableProps> = ({ handleDelete }) => {
+
+const Table: React.FC = () => {
   const dispatch = useDispatch();
-  const formDataList = useSelector((state: RootState) => state.formDataList);
+  const formDataList = useSelector(selectEvents);
 
   const handleDeleteClick = (index: number) => {
-    dispatch(deleteFormData(index));
+    dispatch(deleteEvent(index)); 
   };
 
   return (
