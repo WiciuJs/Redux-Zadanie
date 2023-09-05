@@ -26,8 +26,26 @@ const Form: React.FC = () => {
     if (!newForm.name || !newForm.eventName || !newForm.city) {
       alert('Wypełnij wszystkie pola formularza.');
     } else {
-      dispatch(addEvent(newForm));
-      dispatch(resetForm());
+      fetch('znowu te linkowanie !!!!!!!', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newForm),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert('Dodano wydarzenie pomyślnie.');
+            dispatch(addEvent(newForm));
+            dispatch(resetForm());
+          } else {
+            throw new Error('Błąd podczas dodawania wydarzenia');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Wystąpił błąd podczas dodawania wydarzenia.');
+        });
     }
   };
 
