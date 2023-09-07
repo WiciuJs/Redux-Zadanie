@@ -6,30 +6,34 @@ const Table: React.FC = () => {
   const dispatch = useDispatch();
   const formDataList = useSelector(selectEvents);
 
-  const fetchData = () => {
-    fetch('http://127.0.0.1:5000/api/getEvents')
-      .then((response) => response.json())
-      .then((data) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/getEvents');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
         dispatch(setEvents(data));
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
-  };
-  fetchData();
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   const handleDeleteClick = (eventId: number) => {
     fetch(`http://127.0.0.1:5000/api/deleteEvent/${eventId}`, {
       method: 'DELETE',
     })
       .then(() => {
-        dispatch(deleteEvent(eventId));
+        dispatch(deleteEvent(eventId)); 
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
   return (
     <div className="table-container">
       <table>

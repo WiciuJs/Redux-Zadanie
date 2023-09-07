@@ -15,14 +15,14 @@ const eventsListSlice = createSlice({
       state.formDataList.push(action.payload);
     },
     deleteEvent: (state, action: PayloadAction<number>) => {
-      state.formDataList = state.formDataList.filter((_, index) => index !== action.payload);
+      state.formDataList = state.formDataList.filter((event) => event._id !== action.payload);
     },
     setEvents: (state, action: PayloadAction<FormData[]>) => {
       state.formDataList = action.payload;
     }
   },
 });
-export const { addEvent, deleteEvent, setEvents, } = eventsListSlice.actions;
+export const { addEvent, deleteEvent, setEvents } = eventsListSlice.actions;
 
 export const selectEvents = (state: { eventsList: State }) => state.eventsList.formDataList;
 

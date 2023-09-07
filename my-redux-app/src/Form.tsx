@@ -15,18 +15,16 @@ const Form: React.FC = () => {
       [name]: value,
     }));
   };
-
   const handleSubmitClick = () => {
     if (!formData.name || !formData.eventName || !formData.city) {
       alert('Wypełnij wszystkie pola formularza.');
     } else {
       const newForm = {
-        _id: 0, 
+        _id: Date.now(), 
         name: formData.name,
         eventName: formData.eventName,
         city: formData.city,
       };
-
       fetch('http://127.0.0.1:5000/api/addEvent', {
         method: 'POST',
         headers: {
@@ -49,7 +47,6 @@ const Form: React.FC = () => {
         });
     }
   };
-
   return (
     <form>
       <div>
