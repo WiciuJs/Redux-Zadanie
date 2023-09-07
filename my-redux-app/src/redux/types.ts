@@ -1,5 +1,6 @@
 export interface FormData {
-    name: string;
-    eventName: string;
-    city: string;
-  }
+  _id: number;
+  name: string;
+  eventName: string;
+  city: string;
+}

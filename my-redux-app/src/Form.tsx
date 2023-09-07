@@ -11,22 +11,23 @@ const Form: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     dispatch(setFormData({
-      ...formData, 
+      ...formData,
       [name]: value,
     }));
   };
 
   const handleSubmitClick = () => {
-    const newForm = {
-      name: formData.name,
-      eventName: formData.eventName,
-      city: formData.city,
-    };
-
-    if (!newForm.name || !newForm.eventName || !newForm.city) {
+    if (!formData.name || !formData.eventName || !formData.city) {
       alert('Wypełnij wszystkie pola formularza.');
     } else {
-      fetch('znowu te linkowanie !!!!!!!', {
+      const newForm = {
+        _id: 0, 
+        name: formData.name,
+        eventName: formData.eventName,
+        city: formData.city,
+      };
+
+      fetch('http://127.0.0.1:5000/api/addEvent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

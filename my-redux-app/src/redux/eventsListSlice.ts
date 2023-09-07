@@ -1,31 +1,29 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FormData } from './types';
-import { RootState } from './store';
 
 interface State {
   formDataList: FormData[];
 }
-
 const initialState: State = {
   formDataList: [],
 };
-
-
-export const eventsListSlice = createSlice({
+const eventsListSlice = createSlice({
   name: 'eventsList',
   initialState,
   reducers: {
-    addEvent: (state, action) => {
-      state.formDataList = state.formDataList.concat(action.payload);
+    addEvent: (state, action: PayloadAction<FormData>) => {
+      state.formDataList.push(action.payload);
     },
     deleteEvent: (state, action: PayloadAction<number>) => {
-      state.formDataList.splice(action.payload, 1);
+      state.formDataList = state.formDataList.filter((_, index) => index !== action.payload);
     },
+    setEvents: (state, action: PayloadAction<FormData[]>) => {
+      state.formDataList = action.payload;
+    }
   },
 });
+export const { addEvent, deleteEvent, setEvents, } = eventsListSlice.actions;
 
-export const { addEvent, deleteEvent} = eventsListSlice.actions
+export const selectEvents = (state: { eventsList: State }) => state.eventsList.formDataList;
 
-export const selectEvents = (state: RootState) => state.eventsList.formDataList
-
-export default eventsListSlice.reducer
+export default eventsListSlice.reducer;
