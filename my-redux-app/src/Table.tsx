@@ -5,7 +5,6 @@ import { selectEvents, deleteEvent, setEvents } from './redux/eventsListSlice';
 const Table: React.FC = () => {
   const dispatch = useDispatch();
   const formDataList = useSelector(selectEvents);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,7 +18,6 @@ const Table: React.FC = () => {
         console.error(error);
       }
     };
-
     fetchData();
   }, [dispatch]);
 

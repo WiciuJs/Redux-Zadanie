@@ -10,15 +10,13 @@ export const addEvent = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Błąd podczas dodawania wydarzenia' });
   }
 };
-export const deleteEvent = async (req: Request, res: Response) => {
+ export const deleteEvent = async (req: Request, res: Response) => {
   try {
-    const eventId = req.params.id;
-    await EventModel.findByIdAndRemove(eventId);
     res.status(200).json({ message: 'Wydarzenie zostało usunięte.' });
   } catch (error) {
     res.status(500).json({ error: 'Błąd podczas usuwania wydarzenia' });
   }
-};
+}; 
 export const getEvents = async (req: Request, res: Response) => {
   try {
     const events = await EventModel.find();
